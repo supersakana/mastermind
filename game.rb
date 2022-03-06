@@ -4,7 +4,8 @@ class Mastermind
 
   def initialize
     @values = ('1'..'6').to_a
-    @code = []
+    @cpu_code = []
+    @code = %w[X X X X]
     @randomized = false
   end
 
@@ -23,7 +24,7 @@ class Mastermind
   end
 
   def print_board
-    p 'X X X X'
+    p "#{@code[0]} #{@code[1]} #{@code[2]} #{@code[3]}"
   end
 end
 
