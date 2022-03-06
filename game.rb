@@ -1,17 +1,31 @@
 # When a new game is initialized
 class Mastermind
-  attr_reader :values
+  attr_reader :value, :code
 
   def initialize
     @values = ('1'..'6').to_a
     @code = []
+    @randomized = false
   end
 
-  def randomizer
+  def randomize
     4.times { @code.push(@values.sample) }
-    p @code
+    @randomized = true
+  end
+
+  def play_game
+    if @randomized == true
+      print_board
+    else
+      randomize
+      print_board
+    end
+  end
+
+  def print_board
+    p 'X X X X'
   end
 end
 
 new_game = Mastermind.new
-new_game.randomizer
+new_game.play_game
