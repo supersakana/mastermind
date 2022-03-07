@@ -3,8 +3,13 @@ class Mastermind
   attr_reader :value, :code
 
   def initialize
+    p 'Welcome to Mastermind! What is your name?'
+    @name = gets.chomp
+    p "Nice to meet you #{@name}, let's get started..."
     @values = ('1'..'6').to_a
     @cpu_code = []
+    @guess = []
+    @round = 0
     @code = %w[X X X X]
     @randomized = false
   end
@@ -15,16 +20,31 @@ class Mastermind
   end
 
   def play_game
-    if @randomized == true
-      print_board
-    else
-      randomize
-      print_board
+    while @round < 13
+      if @randomized == true
+        print_board
+      else
+        randomize
+        print_board
+      end
+      guess_message
+      user_guess(gets.chomp)
+      @round += 1
     end
   end
 
   def print_board
     p "#{@code[0]} #{@code[1]} #{@code[2]} #{@code[3]}"
+    p @guess
+  end
+
+  def user_guess(guess)
+    p "#{guess} is your guess"
+    @guess.push(guess)
+  end
+
+  def guess_message
+    p "#{@name}, make your move...(# # # #)"
   end
 end
 
