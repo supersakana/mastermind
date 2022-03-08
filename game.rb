@@ -35,21 +35,11 @@ class Mastermind
 
   # Prints the gameboard with the users guess
   def print_board
+    # p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
     p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
     p '---------------------'
     @guess.each do |combo|
       p "#{@guess.find_index(combo) + 1})  | #{combo} | B:#{@feedback[0]} W:#{@feedback[0]}"
-    end
-  end
-
-  # Gets and validates the user's guess
-  def user_guess(guess)
-    if guess.length == 4
-      (@is_valid = true
-       @guess.push(guess))
-    else
-      (@is_valid = false
-       p 'Invalid Guess')
     end
   end
 
@@ -59,8 +49,36 @@ class Mastermind
     p "ROUND #{@round} / 12"
     p "#{@name}, make your move...(must be a 4 digit number)"
   end
+
+  # Gets and validates the user's guess
+  def user_guess(guess)
+    if guess.length == 4
+      (@is_valid = true
+       #  white_checker(guess)
+       @guess.push(guess))
+    else
+      (@is_valid = false
+       p 'Invalid Guess')
+    end
+  end
+
+  def white_checker(guess)
+    guess.to_s.chars.each do |i|
+      @feedback[1] += 1 if @cpu_code.include?(i)
+    end
+  end
+
+  # def white_checker_psuedo(guess)
+  #   # if guess |number| is included in CPU code
+  #   # W += 1
+  #   # elsif guess |number| && index == cpu number && index
+  #   # B += 1
+  #   # else
+  #   # B: 0 && W: 0
+  # end
 end
 # End of class ---------------
 
 new_game = Mastermind.new
 new_game.play_game
+# new_game.guess_checker(gets.chomp)
