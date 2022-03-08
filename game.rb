@@ -8,12 +8,12 @@ class Mastermind
     @name = gets.chomp
     @values = ('1'..'6').to_a
     @code = %w[X X X X]
-    @feedback = [0, 0]
     @round = 1
     @randomized = false
     @is_valid = true
     @cpu_code = []
     @guess = []
+    @feedback = []
   end
 
   # creates a cpu generated random code
@@ -35,11 +35,11 @@ class Mastermind
 
   # Prints the gameboard with the users guess
   def print_board
-    # p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
-    p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
+    p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
+    # p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
     p '---------------------'
-    @guess.each do |combo|
-      p "#{@guess.find_index(combo) + 1})  | #{combo} | B:#{@feedback[0]} W:#{@feedback[0]}"
+    @guess.each_with_index do |combo, index|
+      p "#{index + 1})  | #{combo} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
     end
   end
 
@@ -54,7 +54,7 @@ class Mastermind
   def user_guess(guess)
     if guess.length == 4
       (@is_valid = true
-       #  white_checker(guess)
+       white_checker(guess)
        @guess.push(guess))
     else
       (@is_valid = false
@@ -62,9 +62,12 @@ class Mastermind
     end
   end
 
+  # NOTE! Just like how the guesses are pushed into an array, feedback can do the same and be associated with round through combo index #
   def white_checker(guess)
+    black_white = [0, 0]
     guess.to_s.chars.each do |i|
-      @feedback[1] += 1 if @cpu_code.include?(i)
+      black_white[1] += 1 if @cpu_code.include?(i)
+      @feedback.push(black_white)
     end
   end
 
@@ -81,4 +84,3 @@ end
 
 new_game = Mastermind.new
 new_game.play_game
-# new_game.guess_checker(gets.chomp)
