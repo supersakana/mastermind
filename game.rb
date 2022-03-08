@@ -35,11 +35,10 @@ class Mastermind
 
   def print_board
     p "#{@code[0]} #{@code[1]} #{@code[2]} #{@code[3]}"
-    p @guess
+    @guess.each { |combo| p combo } unless @guess.length.zero?
   end
 
   def user_guess(guess)
-    p "#{guess} is your guess"
     @guess.push(guess)
   end
 
