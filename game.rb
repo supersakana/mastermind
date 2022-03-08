@@ -18,7 +18,7 @@ class Mastermind
 
   # creates a cpu generated random code
   def randomize
-    4.times { @code.push(@values.sample) }
+    4.times { @cpu_code.push(@values.sample) }
     @randomized = true
   end
 
