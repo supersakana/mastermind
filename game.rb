@@ -6,14 +6,14 @@ class Mastermind
   def initialize
     p 'Welcome to Mastermind! What is your name?'
     @name = gets.chomp
-    p "Nice to meet you #{@name}, let's get started..."
     @values = ('1'..'6').to_a
     @code = %w[X X X X]
-    @cpu_code = []
-    @guess = []
+    @feedback = [0, 0]
     @round = 1
     @randomized = false
     @is_valid = true
+    @cpu_code = []
+    @guess = []
   end
 
   # creates a cpu generated random code
@@ -35,8 +35,11 @@ class Mastermind
 
   # Prints the gameboard with the users guess
   def print_board
-    p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]}"
-    @guess.each { |combo| p "#{@guess.find_index(combo) + 1})  | #{combo}" } unless @guess.length.zero?
+    p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
+    p '---------------------'
+    @guess.each do |combo|
+      p "#{@guess.find_index(combo) + 1})  | #{combo} | B:#{@feedback[0]} W:#{@feedback[0]}"
+    end
   end
 
   # Gets and validates the user's guess
@@ -52,11 +55,12 @@ class Mastermind
 
   # Message before each guess
   def guess_message
-    p '_______________'
+    p '_____________________'
     p "ROUND #{@round} / 12"
     p "#{@name}, make your move...(must be a 4 digit number)"
   end
 end
 # End of class ---------------
+
 new_game = Mastermind.new
 new_game.play_game
