@@ -8,10 +8,10 @@ class Mastermind
     @name = gets.chomp
     p "Nice to meet you #{@name}, let's get started..."
     @values = ('1'..'6').to_a
+    @code = %w[X X X X]
     @cpu_code = []
     @guess = []
-    @round = 0
-    @code = %w[X X X X]
+    @round = 1
     @randomized = false
   end
 
@@ -34,8 +34,8 @@ class Mastermind
 
   # Prints the gameboard with the users guess
   def print_board
-    p "#{@code[0]} #{@code[1]} #{@code[2]} #{@code[3]}"
-    @guess.each { |combo| p combo.to_s } unless @guess.length.zero?
+    p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]}"
+    @guess.each { |combo| p "#{@guess.find_index(combo) + 1})  | #{combo}" } unless @guess.length.zero?
   end
 
   # Gets the user's guess (Will put conditionals eventually)
@@ -45,7 +45,9 @@ class Mastermind
 
   # Message before each guess
   def guess_message
-    p "#{@name}, make your move...(# # # #)"
+    p '_______________'
+    p "ROUND #{@round} / 12"
+    p "#{@name}, make your move...(must be a 4 digit number)"
   end
 end
 # End of class ---------------
