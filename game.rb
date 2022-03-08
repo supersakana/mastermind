@@ -13,6 +13,7 @@ class Mastermind
     @guess = []
     @round = 1
     @randomized = false
+    @is_valid = true
   end
 
   # creates a cpu generated random code
@@ -25,10 +26,10 @@ class Mastermind
   def play_game
     print_board
     while @round < 13
-      @randomized == true ? print_board : randomize
+      @randomized == true && @is_valid == true ? print_board : randomize
       guess_message
-      user_guess(gets.chomp)
-      @round += 1
+      user_guess(gets.chomp.to_i)
+      @round += 1 unless @is_valid == false
     end
   end
 
@@ -40,7 +41,13 @@ class Mastermind
 
   # Gets the user's guess (Will put conditionals eventually)
   def user_guess(guess)
-    @guess.push(guess)
+    if guess.length == 4
+      @is_valid = true
+      @guess.push(guess)
+    else
+      @is_valid = false
+      p 'Invalid guess.'
+    end
   end
 
   # Message before each guess
