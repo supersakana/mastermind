@@ -28,7 +28,7 @@ class Mastermind
     while @round < 13
       @randomized == true && @is_valid == true ? print_board : randomize
       guess_message
-      user_guess(gets.chomp.to_i)
+      user_guess(gets.chomp)
       @round += 1 unless @is_valid == false
     end
   end
@@ -39,14 +39,14 @@ class Mastermind
     @guess.each { |combo| p "#{@guess.find_index(combo) + 1})  | #{combo}" } unless @guess.length.zero?
   end
 
-  # Gets the user's guess (Will put conditionals eventually)
+  # Gets and validates the user's guess
   def user_guess(guess)
     if guess.length == 4
-      @is_valid = true
-      @guess.push(guess)
+      (@is_valid = true
+       @guess.push(guess))
     else
-      @is_valid = false
-      p 'Invalid guess.'
+      (@is_valid = false
+       p 'Invalid Guess')
     end
   end
 
