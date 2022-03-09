@@ -51,7 +51,7 @@ class Mastermind
   def guess_message
     p '_____________________'
     p "ROUND #{@round} / 12"
-    p "#{@name}, make your move...(must be a 4 digit number)"
+    p "#{@name}, Enter a 4 digit number 1-6...(NOTE! Each cpu code value is different)"
   end
 
   # Gets and validates the user's guess
