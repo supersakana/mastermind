@@ -1,4 +1,4 @@
-# When a new game is initialized
+# Player Breaks CPU code
 class Mastermind
   attr_reader :value, :code
 
@@ -8,6 +8,7 @@ class Mastermind
     @name = gets.chomp
     @values = ('1'..'6').to_a
     @code = %w[X X X X]
+    @winner = false
     @round = 1
     @randomized = false
     @is_valid = true
@@ -34,22 +35,25 @@ class Mastermind
       guess_message
       user_guess(gets.chomp)
       @round += 1 unless @is_valid == false
+      winner?
+      break if @winner == true
     end
+    looser?
   end
 
   # Prints the gameboard with the users guess
   def print_board
-    p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
     # p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
+    p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
     p '---------------------'
     @guess.each_with_index do |combo, index|
-      p "#{index + 1})  | #{combo} | #{@feedback[index]}"
+      p "#{index + 1})  | #{combo} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
     end
+    p '---------------------'
   end
 
   # Message before each guess
   def guess_message
-    p '_____________________'
     p "ROUND #{@round} / 12"
     p "#{@name}, Enter a 4 digit number 1-6...(NOTE! Each cpu code value is different)"
   end
@@ -66,7 +70,7 @@ class Mastermind
     end
   end
 
-  # checks if guess includes solution numbers
+  # checks if guess includes cpu code values
   def black_checker(guess)
     guess.to_s.chars.uniq.each do |i|
       @cpu_code.each do |j|
@@ -75,7 +79,7 @@ class Mastermind
     end
   end
 
-  # checks if guess has correct number in correct position
+  # checks if guess has correct value and correct index
   def white_checker(guess)
     guess.to_s.chars.uniq.each_with_index do |i, i_index|
       @cpu_code.each_with_index do |j, j_index|
@@ -87,11 +91,24 @@ class Mastermind
     end
   end
 
+  # uses white/black_checker to give user feedback
   def give_feedback(guess)
     @black_white = [0, 0]
     black_checker(guess)
     white_checker(guess)
     @feedback.push(@black_white)
+  end
+
+  # determines if user has won
+  def winner?
+    return unless @feedback.include?([0, 4])
+
+    p "#{@name} is the Winner! :)"
+    @winner = true
+  end
+
+  def looser?
+    p "Sorry #{@name}, you loose :("
   end
 end
 # End of class ---------------
