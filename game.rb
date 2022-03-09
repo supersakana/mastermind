@@ -18,7 +18,7 @@ class Mastermind
 
   # creates a cpu generated random code
   def randomize
-    4.times { @cpu_code.push(@values.sample) }
+    @cpu_code.push(@values.sample) while @cpu_code.length <= 3
     @randomized = true
   end
 
@@ -39,7 +39,7 @@ class Mastermind
     # p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
     p '---------------------'
     @guess.each_with_index do |combo, index|
-      p "#{index + 1})  | #{combo} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
+      p "#{index + 1})  | #{combo} | #{@feedback[index]}"
     end
   end
 
@@ -54,7 +54,7 @@ class Mastermind
   def user_guess(guess)
     if guess.length == 4
       (@is_valid = true
-       white_checker(guess)
+       black_checker(guess)
        @guess.push(guess))
     else
       (@is_valid = false
@@ -62,25 +62,18 @@ class Mastermind
     end
   end
 
-  # NOTE! Just like how the guesses are pushed into an array, feedback can do the same and be associated with round through combo index #
-  def white_checker(guess)
+  def black_checker(guess)
+    randomize
     black_white = [0, 0]
-    guess.to_s.chars.each do |i|
-      black_white[1] += 1 if @cpu_code.include?(i)
-      @feedback.push(black_white)
+    guess.to_s.chars.uniq.each do |i|
+      @cpu_code.select { |j| j == i }
+      p @cpu_code
     end
+    @feedback.push(black_white)
   end
-
-  # def white_checker_psuedo(guess)
-  #   # if guess |number| is included in CPU code
-  #   # W += 1
-  #   # elsif guess |number| && index == cpu number && index
-  #   # B += 1
-  #   # else
-  #   # B: 0 && W: 0
-  # end
 end
 # End of class ---------------
 
 new_game = Mastermind.new
-new_game.play_game
+# new_game.play_game
+new_game.black_checker(1134)
