@@ -14,6 +14,7 @@ class Mastermind
     @cpu_code = []
     @guess = []
     @feedback = []
+    @black_white = []
   end
 
   # creates a cpu generated random code (all unique values)
@@ -57,7 +58,7 @@ class Mastermind
   def user_guess(guess)
     if guess.length == 4
       (@is_valid = true
-       white_checker(guess)
+       give_feedback(guess)
        @guess.push(guess))
     else
       (@is_valid = false
@@ -65,29 +66,32 @@ class Mastermind
     end
   end
 
-  # gives user feedback if guess includes solution numbers
+  # checks if guess includes solution numbers
   def black_checker(guess)
-    black_white = [0, 0]
     guess.to_s.chars.uniq.each do |i|
       @cpu_code.each do |j|
-        black_white[0] += 1 if i == j
+        @black_white[0] += 1 if i == j
       end
     end
-    @feedback.push(black_white)
   end
 
-  # gives user feedback if guess has correct number in correct position
+  # checks if guess has correct number in correct position
   def white_checker(guess)
-    black_white = [0, 0]
     guess.to_s.chars.uniq.each_with_index do |i, i_index|
       @cpu_code.each_with_index do |j, j_index|
         if i == j && i_index == j_index
-          black_white[1] += 1
-          black_white[0] -= 1 unless black_white[0].zero?
+          @black_white[1] += 1
+          @black_white[0] -= 1 unless @black_white[0].zero?
         end
       end
     end
-    @feedback.push(black_white)
+  end
+
+  def give_feedback(guess)
+    @black_white = [0, 0]
+    black_checker(guess)
+    white_checker(guess)
+    @feedback.push(@black_white)
   end
 end
 # End of class ---------------
