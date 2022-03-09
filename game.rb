@@ -1,14 +1,21 @@
-# Player Breaks CPU code
-class Mastermind
-  attr_reader :value, :code
-
-  # Includes messages and default values
+# Game intro
+class NewGame
   def initialize
     p 'Welcome to Mastermind! What is your name?'
     @name = gets.chomp
     @values = ('1'..'6').to_a
-    @code = %w[X X X X]
     @winner = false
+  end
+end
+
+# Player Breaks CPU code
+class CodeBreaker < NewGame
+  attr_reader :value, :code
+
+  # Includes messages and default values
+  def initialize
+    super
+    @code = %w[X X X X]
     @round = 1
     @randomized = false
     @is_valid = true
@@ -111,6 +118,6 @@ class Mastermind
     p "Sorry #{@name}, you loose :("
   end
 end
-# End of class ---------------
-new_game = Mastermind.new
-new_game.play_game
+
+start = CodeBreaker.new
+start.play_game
