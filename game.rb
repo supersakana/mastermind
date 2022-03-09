@@ -18,7 +18,11 @@ class Mastermind
 
   # creates a cpu generated random code
   def randomize
-    @cpu_code.push(@values.sample) while @cpu_code.length <= 3
+    while @cpu_code.length <= 3
+      sample = @values.sample
+      @cpu_code.push(sample) unless @cpu_code.include?(sample)
+    end
+    p @cpu_code
     @randomized = true
   end
 
@@ -66,8 +70,9 @@ class Mastermind
     randomize
     black_white = [0, 0]
     guess.to_s.chars.uniq.each do |i|
-      @cpu_code.select { |j| j == i }
-      p @cpu_code
+      @cpu_code.each do |j|
+        black_white[0] += 1 if i == j
+      end
     end
     @feedback.push(black_white)
   end
@@ -76,4 +81,4 @@ end
 
 new_game = Mastermind.new
 # new_game.play_game
-new_game.black_checker(1134)
+new_game.randomize
