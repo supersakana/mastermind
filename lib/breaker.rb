@@ -1,18 +1,12 @@
-# Game intro
-class NewGame
-  def initialize
-    p 'Welcome to Mastermind! What is your name?'
-    @name = gets.chomp
-    @values = ('1'..'6').to_a
-    @winner = false
-  end
-end
+# frozen_string_literal: true
 
-# Player Breaks CPU code
-class CodeBreaker < NewGame
+require_relative 'intro'
+
+# User breaks cpu code
+class Breaker < Intro
   attr_reader :value, :code
 
-  # Includes messages and default values
+  # includes messages and default values
   def initialize
     super
     @code = %w[X X X X]
@@ -43,9 +37,9 @@ class CodeBreaker < NewGame
       user_guess(gets.chomp)
       @round += 1 unless @is_valid == false
       winner?
-      break if @winner == true
+      break if @win == true
     end
-    looser?
+    looser? if @win == false
   end
 
   # Prints the gameboard with the users guess
@@ -111,13 +105,10 @@ class CodeBreaker < NewGame
     return unless @feedback.include?([0, 4])
 
     p "#{@name} is the Winner! :)"
-    @winner = true
+    @win = true
   end
 
   def looser?
     p "Sorry #{@name}, you loose :("
   end
 end
-
-start = CodeBreaker.new
-start.play_game
