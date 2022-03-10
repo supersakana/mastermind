@@ -6,11 +6,12 @@ require_relative 'intro'
 class Maker < Intro
   def initialize
     super
-    # @name = gets.chomp
-    # p 'Enter a code for the cpu to break (Must be 4 digit number)'
+    @name = gets.chomp
+    p 'Enter a code for the cpu to break (Must be 4 digit number)'
     @user_code = []
+    @guess_list = []
+    @cpu_guess = nil
     @is_valid = false
-    @cpu_guesses = []
   end
 
   # user enters code for cpu to break
@@ -33,24 +34,36 @@ class Maker < Intro
   def print_board
     p "#{@name} | #{@user_code[0]}#{@user_code[1]}#{@user_code[2]}#{@user_code[3]} | FEEDBACK"
     p '---------------------'
-    p 'cpu guesses will go here'
+    @guess_list.each_with_index do |combo, index|
+      p "#{index + 1})  | #{combo.join('')} | Feedback"
+    end
     p '---------------------'
   end
 
   # game loop
   def play_game
     code_maker
-    print_board if @is_valid == true
+    while @is_valid == true && @round < 13
+      print_board
+      p "ROUND #{@round} / 12"
+      choice_generator
+      gets.chomp
+      @round += 1
+    end
   end
 
   # creates random cpu guess to start with
   def choice_generator
-    cpu_guess = []
-    while cpu_guess.length <= 3
+    @cpu_guess = []
+    while @cpu_guess.length <= 3
       sample = @values.sample
-      cpu_guess.push(sample) unless cpu_guess.include?(sample)
+      @cpu_guess.push(sample) unless @cpu_guess.include?(sample)
     end
-    @cpu_guesses.push(cpu_guess)
-    p @cpu_guesses
+    @guess_list.push(@cpu_guess)
+    cpu_message
+  end
+
+  def cpu_message
+    p "CPU: I think your code is #{@cpu_guess.join('')}...(Press enter to continue)"
   end
 end

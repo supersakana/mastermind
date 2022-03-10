@@ -8,4 +8,4 @@ require_relative 'maker'
 # start.prompt
 
 test = Maker.new
-test.choice_generator
+test.play_game
