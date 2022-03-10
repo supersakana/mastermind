@@ -6,10 +6,12 @@ require_relative 'intro'
 class Maker < Intro
   def initialize
     super
+    @name = gets.chomp
     p 'Enter a code for the cpu to break (Must be 4 digit number)'
     @user_code = []
     @validated = false
-    # to be continued...
+    @cpu_guesses = []
+    @round = 1
   end
 
   # user enters code for cpu to break
@@ -37,7 +39,7 @@ class Maker < Intro
     p '---------------------'
   end
 
-  def lets_play
+  def play_game
     code_maker
     print_board if @validated == true
   end

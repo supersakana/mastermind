@@ -9,6 +9,7 @@ class Breaker < Intro
   # includes messages and default values
   def initialize
     super
+    @name = gets.chomp
     @code = %w[X X X X]
     @round = 1
     @randomized = false
