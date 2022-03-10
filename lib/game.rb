@@ -4,5 +4,8 @@ require_relative 'intro'
 require_relative 'breaker'
 require_relative 'maker'
 
-start = Intro.new
-start.prompt
+# start = Intro.new
+# start.prompt
+
+test = Maker.new
+test.choice_generator

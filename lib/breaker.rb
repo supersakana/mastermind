@@ -4,20 +4,15 @@ require_relative 'intro'
 
 # User breaks cpu code
 class Breaker < Intro
-  attr_reader :value, :code
-
-  # includes messages and default values
+  # initial values
   def initialize
     super
     @name = gets.chomp
     @code = %w[X X X X]
-    @round = 1
     @randomized = false
     @is_valid = true
     @cpu_code = []
     @guess = []
-    @feedback = []
-    @black_white = []
   end
 
   # creates a cpu generated random code (all unique values)
@@ -29,7 +24,7 @@ class Breaker < Intro
     @randomized = true
   end
 
-  # Game loop
+  # game loop
   def play_game
     print_board
     while @round < 13
@@ -43,7 +38,7 @@ class Breaker < Intro
     looser? if @win == false
   end
 
-  # Prints the gameboard with the users guess
+  # prints the gameboard with the users guess and feedback
   def print_board
     # p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
     p "CPU | #{@cpu_code[0]}#{@cpu_code[1]}#{@cpu_code[2]}#{@cpu_code[3]} | FEEDBACK"
@@ -54,7 +49,7 @@ class Breaker < Intro
     p '---------------------'
   end
 
-  # Message before each guess
+  # message before each guess
   def guess_message
     p "ROUND #{@round} / 12"
     p "#{@name}, Enter a 4 digit number 1-6...(NOTE! Each cpu code value is different)"

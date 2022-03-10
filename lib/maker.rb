@@ -6,12 +6,11 @@ require_relative 'intro'
 class Maker < Intro
   def initialize
     super
-    @name = gets.chomp
-    p 'Enter a code for the cpu to break (Must be 4 digit number)'
+    # @name = gets.chomp
+    # p 'Enter a code for the cpu to break (Must be 4 digit number)'
     @user_code = []
-    @validated = false
+    @is_valid = false
     @cpu_guesses = []
-    @round = 1
   end
 
   # user enters code for cpu to break
@@ -23,7 +22,7 @@ class Maker < Intro
   # checks if user input is valid
   def valid?
     if @user_code.length == 4
-      @validated = true
+      @is_valid = true
     else
       p 'Invalid Input'
       p 'Enter a code for the cpu to break (Must be 4 digit number)'
@@ -32,15 +31,26 @@ class Maker < Intro
   end
 
   def print_board
-    # p "CPU | #{@code[0]}#{@code[1]}#{@code[2]}#{@code[3]} | FEEDBACK"
     p "#{@name} | #{@user_code[0]}#{@user_code[1]}#{@user_code[2]}#{@user_code[3]} | FEEDBACK"
     p '---------------------'
     p 'cpu guesses will go here'
     p '---------------------'
   end
 
+  # game loop
   def play_game
     code_maker
-    print_board if @validated == true
+    print_board if @is_valid == true
+  end
+
+  # creates random cpu guess to start with
+  def choice_generator
+    cpu_guess = []
+    while cpu_guess.length <= 3
+      sample = @values.sample
+      cpu_guess.push(sample) unless cpu_guess.include?(sample)
+    end
+    @cpu_guesses.push(cpu_guess)
+    p @cpu_guesses
   end
 end

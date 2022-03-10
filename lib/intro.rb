@@ -5,8 +5,11 @@ class Intro
   def initialize
     @values = ('1'..'6').to_a
     @win = false
-    @user_choice = nil
+    @game_choice = nil
     @validated = false
+    @round = 1
+    @black_white = nil
+    @feedback = []
   end
 
   # message when someone starts the game
@@ -16,6 +19,7 @@ class Intro
     p '----------------------'
   end
 
+  # gives user game choice
   def prompt
     welcome_message
     while @validated == false
@@ -25,23 +29,26 @@ class Intro
     maker_breaker
   end
 
+  # validiates and assigns @game_choice
   def make_choice
-    @user_choice = gets.chomp
-    if (@user_choice == 'maker') || (@user_choice == 'breaker')
+    @game_choice = gets.chomp
+    if (@game_choice == 'maker') || (@game_choice == 'breaker')
       @validated = true
     else
       p 'invalid choice'
-      @user_choice = nil
+      @game_choice = nil
     end
   end
 
+  # name prompt when choice is selected
   def name?
     p 'What is your name?'
   end
 
+  # plays game according to choice
   def maker_breaker
     name?
-    if @user_choice == 'maker'
+    if @game_choice == 'maker'
       Maker.new.play_game
     else
       Breaker.new.play_game
