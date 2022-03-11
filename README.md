@@ -6,4 +6,6 @@ Note to myself when refactoring...
 
 - Create stronger validations in maker/breaker.rb
 
+- Make sure user's input code can only be unique
+
 - Make it so answer is hidden @breaker.rb

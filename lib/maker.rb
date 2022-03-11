@@ -35,7 +35,7 @@ class Maker < Intro
     p "#{@name} | #{@user_code[0]}#{@user_code[1]}#{@user_code[2]}#{@user_code[3]} | FEEDBACK"
     p '---------------------'
     @guess_list.each_with_index do |combo, index|
-      p "#{index + 1})  | #{combo.join('')} | Feedback"
+      p "#{index + 1})  | #{combo.join('')} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
     end
     p '---------------------'
   end
@@ -59,8 +59,37 @@ class Maker < Intro
       sample = @values.sample
       @cpu_guess.push(sample) unless @cpu_guess.include?(sample)
     end
+    give_feedback(@cpu_guess)
     @guess_list.push(@cpu_guess)
     cpu_message
+  end
+
+  def black_checker(guess)
+    guess.each do |i|
+      @user_code.to_s.chars.uniq.each do |j|
+        @black_white[0] += 1 if i == j
+      end
+    end
+  end
+
+  # checks if guess has correct value and correct index
+  def white_checker(guess)
+    guess.each_with_index do |i, i_index|
+      @user_code.to_s.chars.uniq.each_with_index do |j, j_index|
+        if i == j && i_index == j_index
+          @black_white[1] += 1
+          @black_white[0] -= 1 unless @black_white[0].zero?
+        end
+      end
+    end
+  end
+
+  # uses white/black_checker to give user feedback
+  def give_feedback(guess)
+    @black_white = [0, 0]
+    black_checker(guess)
+    white_checker(guess)
+    @feedback.push(@black_white)
   end
 
   def cpu_message
