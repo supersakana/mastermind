@@ -10,7 +10,7 @@ class Maker < Intro
     p 'Enter a code for the cpu to break (Must be 4 digit number)'
     @user_code = []
     @guess_list = []
-    @cpu_guess = nil
+    @cpu_guess = []
     @is_valid = false
   end
 
@@ -54,15 +54,46 @@ class Maker < Intro
 
   # creates random cpu guess to start with
   def choice_generator
-    @cpu_guess = []
+    first_guess
+    give_feedback(@cpu_guess)
+    @guess_list.push(@cpu_guess)
+    # cpu_message
+    p @guess_list
+  end
+
+  # generates first random answer
+  def first_guess
     while @cpu_guess.length <= 3
       sample = @values.sample
       @cpu_guess.push(sample) unless @cpu_guess.include?(sample)
     end
-    give_feedback(@cpu_guess)
-    @guess_list.push(@cpu_guess)
-    cpu_message
   end
+
+  # # -------------------------------------------------------------------------------
+  # # checks if value needs to be pushed out and in with a new unique sample
+  # # def inlcudes_value?
+  # #   return if @guess_list.empty?
+
+  # #   @cpu_guess.each do |i|
+  # #     @cpu_guess[@cpu_guess.find_index(i)] = sampler unless @user_code.include?(i) || @black_white[0] == 4
+  # #   end
+  # # end
+
+  # def inlcudes_value?
+  #   return if @guess_list.empty?
+
+  #   i = 0
+  #   while i < @cpu_guess.length
+  #     @cpu_guess[i] = sampler
+  #     i += 1
+  #   end
+  # end
+  # # ------------------------WORK ON THIS^^^------------------------------------------
+
+  # def sampler
+  #   sample = @values.sample
+  #   return sample unless @guess_list.each { |value| value.include?(sample) }
+  # end
 
   def black_checker(guess)
     guess.each do |i|

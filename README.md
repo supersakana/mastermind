@@ -9,3 +9,7 @@ Note to myself when refactoring...
 - Make sure user's input code can only be unique
 
 - Make it so answer is hidden @breaker.rb
+
+- DRY up sample methods in maker.rb (create it as it's own method)
+
+- DRY up sample method, make it into an instance variable
