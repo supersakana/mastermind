@@ -10,7 +10,6 @@ class Maker < Intro
     p 'Enter a code for the cpu to break (Must be 4 digit number)'
     @user_code = []
     @guess_list = []
-    @cpu_guess = []
     @is_valid = false
   end
 
@@ -43,39 +42,44 @@ class Maker < Intro
   # game loop
   def play_game
     code_maker
+    start_guess = random_guess
     while @is_valid == true && @round < 13
       print_board
       p "ROUND #{@round} / 12"
-      choice_generator
+      choice_generator(start_guess)
       gets.chomp
       @round += 1
     end
   end
 
   # creates random cpu guess to start with
-  def choice_generator
-    first_guess
-    inlcudes_value? unless @feedback.any? { |value| value[0] == 4 } || @guess_list.empty?
-    give_feedback(@cpu_guess)
-    @guess_list.push(@cpu_guess)
-    # cpu_message
+  def choice_generator(guess)
+    inlcudes_value?(guess) unless @feedback.any? { |black| black[0] == 4 } || @guess_list.empty?
+    give_feedback(guess)
+    @guess_list.push(guess)
     p @guess_list
   end
 
   # generates first random answer
-  def first_guess
-    while @cpu_guess.length <= 3
+  def random_guess
+    the_guess = []
+    while the_guess.length <= 3
       sample = @values.sample
-      @cpu_guess.push(sample) unless @cpu_guess.include?(sample)
+      the_guess.push(sample) unless the_guess.include?(sample)
     end
+    the_guess
   end
+
   # -----------------------------------------------------
 
-  def inlcudes_value?
+  def inlcudes_value?(guess)
     avalible_values = []
-    @cpu_guess.each do |i|
-      @values.each { |num| avalible_values.push(num) unless @cpu_guess.include?(num) }
-      p "#{i} => #{avalible_values.uniq.sample}" unless @user_code.include?(i)
+    @values.each { |num| avalible_values.push(num) unless guess.include?(num) }
+
+    i = 0
+    while i < guess.length
+      guess[i] = avalible_values.uniq.sample unless @user_code.include?(guess[i])
+      i += 1
     end
     p avalible_values.uniq
   end
@@ -108,9 +112,5 @@ class Maker < Intro
     black_checker(guess)
     white_checker(guess)
     @feedback.push(@black_white)
-  end
-
-  def cpu_message
-    p "CPU: I think your code is #{@cpu_guess.join('')}...(Press enter to continue)"
   end
 end
