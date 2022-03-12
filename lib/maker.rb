@@ -55,6 +55,7 @@ class Maker < Intro
   # creates random cpu guess to start with
   def choice_generator
     first_guess
+    inlcudes_value? unless @feedback.any? { |value| value[0] == 4 } || @guess_list.empty?
     give_feedback(@cpu_guess)
     @guess_list.push(@cpu_guess)
     # cpu_message
@@ -68,32 +69,18 @@ class Maker < Intro
       @cpu_guess.push(sample) unless @cpu_guess.include?(sample)
     end
   end
+  # -----------------------------------------------------
 
-  # # -------------------------------------------------------------------------------
-  # # checks if value needs to be pushed out and in with a new unique sample
-  # # def inlcudes_value?
-  # #   return if @guess_list.empty?
+  def inlcudes_value?
+    avalible_values = []
+    @cpu_guess.each do |i|
+      @values.each { |num| avalible_values.push(num) unless @cpu_guess.include?(num) }
+      p "#{i} => #{avalible_values.uniq.sample}" unless @user_code.include?(i)
+    end
+    p avalible_values.uniq
+  end
 
-  # #   @cpu_guess.each do |i|
-  # #     @cpu_guess[@cpu_guess.find_index(i)] = sampler unless @user_code.include?(i) || @black_white[0] == 4
-  # #   end
-  # # end
-
-  # def inlcudes_value?
-  #   return if @guess_list.empty?
-
-  #   i = 0
-  #   while i < @cpu_guess.length
-  #     @cpu_guess[i] = sampler
-  #     i += 1
-  #   end
-  # end
-  # # ------------------------WORK ON THIS^^^------------------------------------------
-
-  # def sampler
-  #   sample = @values.sample
-  #   return sample unless @guess_list.each { |value| value.include?(sample) }
-  # end
+  # -----------------------------------------------------
 
   def black_checker(guess)
     guess.each do |i|
