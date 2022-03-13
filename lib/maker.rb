@@ -42,11 +42,11 @@ class Maker < Intro
   # game loop
   def play_game
     code_maker
-    start_guess = random_guess
+    starting_guess = random_guess
     while @is_valid == true && @round < 13
       print_board
       p "ROUND #{@round} / 12"
-      choice_generator(start_guess)
+      choice_generator(starting_guess)
       gets.chomp
       @round += 1
     end
@@ -56,7 +56,9 @@ class Maker < Intro
   def choice_generator(guess)
     inlcudes_value?(guess) unless @feedback.any? { |black| black[0] == 4 } || @guess_list.empty?
     give_feedback(guess)
-    @guess_list.push(guess)
+    new_guess = []
+    guess.each { |i| new_guess.push(i) }
+    @guess_list.push(new_guess)
     p @guess_list
   end
 
@@ -74,11 +76,14 @@ class Maker < Intro
 
   def inlcudes_value?(guess)
     avalible_values = []
-    @values.each { |num| avalible_values.push(num) unless guess.include?(num) }
+    @values.each { |num| avalible_values.push(num) unless @guess_list.any? { |combo| combo.include?(num) } }
 
     i = 0
     while i < guess.length
-      guess[i] = avalible_values.uniq.sample unless @user_code.include?(guess[i])
+      unless @user_code.include?(guess[i])
+        guess[i] = avalible_values.uniq.sample
+        break
+      end
       i += 1
     end
     p avalible_values.uniq
