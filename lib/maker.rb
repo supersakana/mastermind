@@ -45,9 +45,9 @@ class Maker < Intro
     starting_guess = random_guess
     while @is_valid == true && @round < 13
       print_board
-      p "ROUND #{@round} / 12"
-      choice_generator(starting_guess)
+      p "ROUND #{@round} / 12 (Click ENTER to see CPU guess)"
       gets.chomp
+      choice_generator(starting_guess)
       @round += 1
     end
   end
@@ -55,11 +55,15 @@ class Maker < Intro
   # creates random cpu guess to start with
   def choice_generator(guess)
     inlcudes_value?(guess) unless @feedback.any? { |black| black[0] == 4 } || @guess_list.empty?
+    shuffler(guess) if guess.each { |value| @user_code.include?(value) }
     give_feedback(guess)
     new_guess = []
     guess.each { |i| new_guess.push(i) }
     @guess_list.push(new_guess)
-    p @guess_list
+  end
+
+  def shuffler(guess)
+    guess.shuffle! until @guess_list.none? { |combo| combo == guess }
   end
 
   # generates first random answer
@@ -72,8 +76,7 @@ class Maker < Intro
     the_guess
   end
 
-  # -----------------------------------------------------
-
+  # Checks 1 number at a time and subs it with a value not used yet according to the @guess_list
   def inlcudes_value?(guess)
     avalible_values = []
     @values.each { |num| avalible_values.push(num) unless @guess_list.any? { |combo| combo.include?(num) } }
@@ -86,11 +89,9 @@ class Maker < Intro
       end
       i += 1
     end
-    p avalible_values.uniq
   end
 
-  # -----------------------------------------------------
-
+  # checks if guess includes cpu code values
   def black_checker(guess)
     guess.each do |i|
       @user_code.to_s.chars.uniq.each do |j|
