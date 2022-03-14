@@ -8,20 +8,20 @@ class Maker < Intro
     super
     @name = gets.chomp
     p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6)'
-    @user_code = []
+    @master_code = []
     @guess_list = []
     @is_valid = false
   end
 
   # user enters code for cpu to break
   def code_maker
-    @user_code = gets.chomp
+    @master_code = gets.chomp
     valid?
   end
 
   # checks if user input is valid
   def valid?
-    if @user_code.length == 4
+    if @master_code.length == 4
       @is_valid = true
     else
       p 'Invalid Input'
@@ -31,10 +31,10 @@ class Maker < Intro
   end
 
   def print_board
-    p "#{@name} | #{@user_code} | FEEDBACK"
+    p "#{@name} | #{@master_code} | CLUES"
     p '---------------------'
     @guess_list.each_with_index do |combo, index|
-      p "#{index + 1})  | #{combo.join('')} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
+      p "#{index + 1})  | #{combo.join('')} | B:#{@clue_list[index][0]} W:#{@clue_list[index][1]}"
     end
     p '---------------------'
   end
@@ -56,11 +56,11 @@ class Maker < Intro
 
   # creates random cpu guess to start with
   def choice_generator(guess)
-    inlcudes_value?(guess) unless @feedback.any? { |black| black[0] == 4 } || @guess_list.empty?
-    shuffler(guess) if guess.each { |value| @user_code.include?(value) }
-    give_feedback(guess)
+    inlcudes_value?(guess) unless @clue_list.any? { |clue| clue[0] == 4 } || @guess_list.empty?
+    shuffler(guess) if guess.each { |value| @master_code.include?(value) }
+    give_clue(guess)
     new_guess = []
-    guess.each { |i| new_guess.push(i) }
+    guess.each { |value| new_guess.push(value) }
     @guess_list.push(new_guess)
     winner?(guess)
   end
@@ -82,11 +82,11 @@ class Maker < Intro
   # Checks 1 number at a time and subs it with a value not used yet according to the @guess_list
   def inlcudes_value?(guess)
     avalible_values = []
-    @values.each { |num| avalible_values.push(num) unless @guess_list.any? { |combo| combo.include?(num) } }
+    @values.each { |value| avalible_values.push(value) unless @guess_list.any? { |combo| combo.include?(value) } }
 
     i = 0
     while i < guess.length
-      unless @user_code.include?(guess[i])
+      unless @master_code.include?(guess[i])
         guess[i] = avalible_values.uniq.sample
         break
       end
@@ -97,8 +97,8 @@ class Maker < Intro
   # checks if guess includes cpu code values
   def black_checker(guess)
     guess.each do |i|
-      @user_code.to_s.chars.uniq.each do |j|
-        @black_white[0] += 1 if i == j
+      @master_code.to_s.chars.uniq.each do |j|
+        @clue[0] += 1 if i == j
       end
     end
   end
@@ -106,26 +106,26 @@ class Maker < Intro
   # checks if guess has correct value and correct index
   def white_checker(guess)
     guess.each_with_index do |i, i_index|
-      @user_code.to_s.chars.uniq.each_with_index do |j, j_index|
+      @master_code.to_s.chars.uniq.each_with_index do |j, j_index|
         if i == j && i_index == j_index
-          @black_white[1] += 1
-          @black_white[0] -= 1 unless @black_white[0].zero?
+          @clue[1] += 1
+          @clue[0] -= 1 unless @clue[0].zero?
         end
       end
     end
   end
 
   # uses white/black_checker to give user feedback
-  def give_feedback(guess)
-    @black_white = [0, 0]
+  def give_clue(guess)
+    @clue = [0, 0]
     black_checker(guess)
     white_checker(guess)
-    @feedback.push(@black_white)
+    @clue_list.push(@clue)
   end
 end
 
 def winner?(guess)
-  if guess.join('') == @user_code
+  if guess.join('') == @master_code
     @win = true
     print_board
     p 'CPU Wins!'

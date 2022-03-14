@@ -8,8 +8,8 @@ class Intro
     @game_choice = nil
     @validated = false
     @round = 1
-    @black_white = nil
-    @feedback = []
+    @clue = nil
+    @clue_list = []
   end
 
   # message when someone starts the game
@@ -40,14 +40,10 @@ class Intro
     end
   end
 
-  # name prompt when choice is selected
-  def name?
-    p 'What is your name?'
-  end
-
   # plays game according to choice
   def maker_breaker
-    name?
+    p 'What is your name?'
+
     if @game_choice == 'maker'
       Maker.new.play_game
     else
