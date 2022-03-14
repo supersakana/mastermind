@@ -7,7 +7,7 @@ class Maker < Intro
   def initialize
     super
     @name = gets.chomp
-    p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6)'
+    p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6, all unique values)'
     @master_code = []
     @guess_list = []
     @is_valid = false
@@ -25,7 +25,7 @@ class Maker < Intro
       @is_valid = true
     else
       p 'Invalid Input'
-      p 'Enter a code for the cpu to break (Must be 4 digit number)'
+      p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6, all unique values)'
       code_maker
     end
   end
