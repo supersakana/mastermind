@@ -1,10 +1,12 @@
-A CLI game based off of Donald Knuth's Mastermind
-To be continued...
+# Mastermind
 
-Live Preview
+## A CLI game based off of Donald Knuth's Mastermind
+
+### Live Preview
+
 https://replit.com/@supersakana/mastermind?v=1
 
-About this game
+### About this game
 
 When game.rb is run, the user is introduced with 2 options(intro.rb) to be the code breaker or code maker. According to the user's choice, the game will select which file to run (breaker.rb or maker.rb).
 
@@ -18,13 +20,13 @@ I've added comments on each method to describe what is happening in the code.
 
 The game ends once a winner is declared.
 
-Reflection
+### Reflection
 
 Overall, for my first take on this project, I'm happy with how it turned out. I've had the most fun programming this project than any other and felt the most struggle. Could my code be DRY-er, more elegant, and OOP? Absolutly. But this was quite the learning experience for me and is a mark of progress in my journey to becoming a developer.
 
 Feel free to give me feedback on how I can improve, I'm very open and want to make progress.
 
-Notes to myself for refactoring...
+### Notes to myself for refactoring...
 
 - Beef up all validation methods!
 
