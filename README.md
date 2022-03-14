@@ -9,3 +9,7 @@ Notes to myself for refactoring...
 - Make it so answer is hidden @breaker.rb
 
 - DRY up sample methods in maker.rb (create it as it's own method)
+
+- Focus more on OOP concepts
+
+- Create a replay class or method
