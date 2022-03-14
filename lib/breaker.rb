@@ -100,11 +100,11 @@ class Breaker < Intro
   def winner?
     return unless @feedback.include?([0, 4])
 
-    p "#{@name} is the Winner! :)"
+    p "#{@name} Wins!"
     @win = true
   end
 
   def looser?
-    p "Sorry #{@name}, you loose :("
+    p 'CPU Wins!'
   end
 end

@@ -7,7 +7,7 @@ class Maker < Intro
   def initialize
     super
     @name = gets.chomp
-    p 'Enter a code for the cpu to break (Must be 4 digit number)'
+    p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6)'
     @user_code = []
     @guess_list = []
     @is_valid = false
@@ -31,7 +31,7 @@ class Maker < Intro
   end
 
   def print_board
-    p "#{@name} | #{@user_code[0]}#{@user_code[1]}#{@user_code[2]}#{@user_code[3]} | FEEDBACK"
+    p "#{@name} | #{@user_code} | FEEDBACK"
     p '---------------------'
     @guess_list.each_with_index do |combo, index|
       p "#{index + 1})  | #{combo.join('')} | B:#{@feedback[index][0]} W:#{@feedback[index][1]}"
@@ -45,9 +45,11 @@ class Maker < Intro
     starting_guess = random_guess
     while @is_valid == true && @round < 13
       print_board
-      p "ROUND #{@round} / 12 (Click ENTER to see CPU guess)"
+      p "ROUND #{@round} / 12 (Click ENTER to continue)"
       gets.chomp
       choice_generator(starting_guess)
+      break if @win == true
+
       @round += 1
     end
   end
@@ -60,6 +62,7 @@ class Maker < Intro
     new_guess = []
     guess.each { |i| new_guess.push(i) }
     @guess_list.push(new_guess)
+    winner?(guess)
   end
 
   def shuffler(guess)
@@ -119,4 +122,14 @@ class Maker < Intro
     white_checker(guess)
     @feedback.push(@black_white)
   end
+end
+
+def winner?(guess)
+  if guess.join('') == @user_code
+    @win = true
+    print_board
+    p 'CPU Wins!'
+  end
+
+  p "#{@name} Wins!" if @round == 12 && @win == false
 end
