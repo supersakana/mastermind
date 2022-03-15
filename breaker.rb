@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'intro'
+require_relative 'game'
 
 # User breaks cpu code
-class Breaker < Intro
+class BreakerGame < Game
   def initialize
     super
-    @name = gets.chomp
     # @code_veil = %w[X X X X]
     @randomized = false
     @is_valid = true
@@ -51,7 +50,7 @@ class Breaker < Intro
   # message before each guess
   def guess_message
     p "ROUND #{@round} / 12"
-    p "#{@name}, Enter a 4 digit number 1-6...(NOTE! Each cpu code value is different)"
+    p '#Enter a 4 digit number 1-6...(NOTE! Each cpu code value is different)'
   end
 
   # Gets and validates the user's guess
@@ -99,7 +98,7 @@ class Breaker < Intro
   def winner?
     return unless @clue_list.include?([0, 4])
 
-    p "#{@name} Wins!"
+    p 'You win!'
     @win = true
   end
 

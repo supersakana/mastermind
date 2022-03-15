@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'intro'
+require_relative 'game'
 
 # User creates code to break
-class Maker < Intro
+class MakerGame < Game
   def initialize
     super
-    @name = gets.chomp
     p 'Enter a code for the cpu to break (Must be 4 digit number between 1 - 6, all unique values)'
     @master_code = []
     @guess_list = []
@@ -31,7 +30,7 @@ class Maker < Intro
   end
 
   def print_board
-    p "#{@name} | #{@master_code} | CLUES"
+    p "USER | #{@master_code} | CLUES"
     p '---------------------'
     @guess_list.each_with_index do |combo, index|
       p "#{index + 1})  | #{combo.join('')} | B:#{@clue_list[index][0]} W:#{@clue_list[index][1]}"
@@ -131,5 +130,5 @@ def winner?(guess)
     p 'CPU Wins!'
   end
 
-  p "#{@name} Wins!" if @round == 12 && @win == false
+  p 'You win!' if @round == 12 && @win == false
 end
